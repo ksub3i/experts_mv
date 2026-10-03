@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   DESIGN TOKENS — the single place to apply the brand guidelines.
+   Swap the values below (colors, fonts, radii, shadows) and the whole site
+   re-skins. Components only ever reference these semantic names.
+   ========================================================================== */
+@theme {
+  /* Color — The Experts brand palette (Brand Guidelines v1.0, section 03).
+     Balance: Navy 50% · White 30% · Crimson 15% · Turquoise 5%. */
+  --color-ink: #0f2242;          /* Navy Blue — dark surfaces, primary text */
+  --color-ink-soft: #172e54;     /* raised navy surfaces */
+  --color-paper: #ffffff;        /* White */
+  --color-surface: #f2f4f8;      /* navy-tinted light section background */
+  --color-line: #dbe0e8;         /* borders, dividers on light */
+  --color-line-inverse: #2a3f63; /* borders, dividers on navy */
+  --color-muted: #4a5568;        /* secondary text on white (7.5:1) */
+  --color-muted-inverse: #b9c2d0;/* secondary text on navy (8.8:1) */
+  --color-brand-red: #eb1c30;    /* Crimson Red, exact — large text & decorative only (4.4:1 on white) */
+  --color-accent: #d3172a;       /* Crimson for buttons & small red text (5.4:1 with white) */
+  --color-accent-strong: #b0101f;/* hover/pressed */
+  --color-on-accent: #ffffff;
+  --color-highlight: #5faaaf;    /* Turquoise — small details; text-safe on navy only (5.9:1) */
+  --color-placeholder: #d5dbe4;
+  --color-placeholder-ink: #56627a;
+  --color-danger: #b42318;
+  --color-success: #1f6f43;
+
+  /* Typography — placeholder fonts (loaded in app/layout.tsx) */
+  --font-display: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-general-sans), ui-sans-serif, system-ui, sans-serif;
+
+  /* Shape & depth */
+  --radius-card: 2px;
+  --radius-button: 2px;
+  --shadow-card: 0 1px 2px rgb(17 17 17 / 0.06), 0 8px 24px rgb(17 17 17 / 0.08);
+  --shadow-card-hover: 0 2px 4px rgb(17 17 17 / 0.08), 0 18px 40px rgb(17 17 17 / 0.14);
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-rise: rise 0.9s var(--ease-out-expo) both;
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* keep anchored targets clear of the fixed header */
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+.on-dark :focus-visible {
+  outline-color: var(--color-highlight);
+}
+
+.on-accent :focus-visible {
+  outline-color: var(--color-paper);
+}
+
+/* ==========================================================================
+   Typographic utilities
+   ========================================================================== */
+@utility display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 125%;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+  overflow-wrap: break-word; /* only breaks a word that cannot fit on its own line */
+}
+
+/* Outline (stroked) word — stroke color follows --outline, set per context */
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 0.028em var(--outline, var(--color-ink));
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+@utility container-site {
+  /* Query container: display headings size in `cqi` so long words always fit the column. */
+  container-type: inline-size;
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
