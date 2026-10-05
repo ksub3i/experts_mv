@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
-import { EnvelopeSimpleIcon, PhoneIcon, DeviceMobileIcon, MapPinIcon } from "@phosphor-icons/react/ssr";
+import {
+  EnvelopeSimpleIcon,
+  PhoneIcon,
+  DeviceMobileIcon,
+  MapPinIcon,
+  ClipboardTextIcon,
+  CalendarCheckIcon,
+  CheckIcon,
+} from "@phosphor-icons/react/ssr";
 import { getSite } from "@/lib/content";
-import { QuoteForm } from "@/features/quote/QuoteForm";
+import { ButtonLink } from "@/components/ui/Button";
+import { BrandStripes } from "@/components/ui/BrandStripes";
 import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { images } from "@/content/images";
 
 export const metadata: Metadata = {
-  title: "Get a Free Quote",
-  description: "Tell us about your project and get a free, no-obligation quote from The Experts in Malé and Hulhumalé.",
+  title: "Contact Us",
+  description: "Call, email or visit The Experts in Malé — or get a free project estimate online for your renovation in Malé or Hulhumalé.",
 };
 
 const tel = (n: string) => `tel:${n.replace(/[^\d+]/g, "")}`;
@@ -21,11 +30,11 @@ export default async function ContactPage() {
     <section className="pt-36 pb-20 md:pt-44 md:pb-28">
       <div className="container-site grid gap-14 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
         <div>
-          <p className="eyebrow text-accent">Free, no-obligation quote</p>
-          <h1 className="display mt-4 text-[clamp(2.25rem,6vw,4.5rem)] text-ink">Inquire for your free quote</h1>
+          <p className="eyebrow text-accent">Contact us</p>
+          <h1 className="display mt-4 text-[clamp(2.25rem,6vw,4.5rem)] text-ink">Let&apos;s talk about your project</h1>
           <p className="mt-6 max-w-md leading-relaxed text-muted">
-            Tell us about your project and we&apos;ll get back to you with clear next steps — no jargon, no
-            surprises. Prefer to talk? Call or visit us.
+            Call, email or visit us — we&apos;re happy to help. For a free estimate, the quickest way is our short
+            online questionnaire.
           </p>
           <ul className="mt-8 space-y-1">
             <li>
@@ -61,7 +70,32 @@ export default async function ContactPage() {
         </div>
 
         <div className="lg:pt-4">
-          <QuoteForm />
+          <div className="@container on-dark relative overflow-hidden bg-ink p-8 text-paper sm:p-10">
+            <BrandStripes className="absolute -top-10 -right-10 h-44 w-44 text-brand-red/25" />
+            <ClipboardTextIcon size={44} weight="light" className="relative text-highlight" aria-hidden="true" />
+            <h2 className="display relative mt-6 text-[length:clamp(1.75rem,7cqi,2.75rem)]">
+              Get your free project estimate
+            </h2>
+            <p className="relative mt-5 max-w-lg leading-relaxed text-muted-inverse">
+              Answer a few quick questions about your project, add photos if you have them, then pick a time for a
+              free consultation — all in about 3 minutes.
+            </p>
+            <ul className="relative mt-6 space-y-3">
+              {["Free and no obligation", "Upload photos and floor plans", "Book your consultation online"].map((p) => (
+                <li key={p} className="flex items-center gap-3 text-muted-inverse">
+                  <CheckIcon size={18} weight="bold" className="shrink-0 text-brand-red" aria-hidden="true" />
+                  {p}
+                </li>
+              ))}
+            </ul>
+            <ButtonLink href={site.estimateHref} arrow className="relative mt-10">
+              {site.ctaLabel}
+            </ButtonLink>
+            <p className="relative mt-6 flex items-center gap-2 text-sm text-muted-inverse">
+              <CalendarCheckIcon size={18} className="text-highlight" aria-hidden="true" />
+              Choose your consultation time at the end.
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -88,5 +88,6 @@ export type SiteConfig = {
   mobile: string;
   socials: SocialLink[];
   nav: NavItem[];
-  quoteHref: string;
+  estimateHref: string;
+  ctaLabel: string;
 };

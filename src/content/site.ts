@@ -21,9 +21,11 @@ export const site: SiteConfig = {
     { label: "About", href: "/about" },
     { label: "Services", href: "/services" },
     { label: "Our Work", href: "/gallery" },
+    { label: "FAQ", href: "/faq" },
     { label: "Contact", href: "/contact" },
   ],
-  quoteHref: "/contact",
+  estimateHref: "/estimate",
+  ctaLabel: "Get Your Free Project Estimate",
 };
 
 // Layouts adapt to any number of stats — add more (e.g. crew size) once confirmed.

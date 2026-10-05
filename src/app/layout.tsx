@@ -48,11 +48,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to main content
         </a>
-        <Header nav={site.nav} quoteHref={site.quoteHref} />
+        <Header nav={site.nav} estimateHref={site.estimateHref} />
         <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
-        <CtaBand href={site.quoteHref} />
+        <CtaBand href={site.estimateHref} />
         <Footer site={site} services={services} />
       </body>
     </html>

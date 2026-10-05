@@ -8,6 +8,7 @@
 import { projects } from "@/content/projects";
 import { services } from "@/content/services";
 import { testimonials } from "@/content/testimonials";
+import { faqGroups, allFaqs } from "@/content/faq";
 import { site, homeStats, aboutStats, companyValues, partners, mission, vision } from "@/content/site";
 import type { Project, Service, Testimonial } from "@/lib/types";
 
@@ -49,4 +50,12 @@ export async function getMissionVision() {
 
 export async function getPartners() {
   return partners;
+}
+
+export async function getFaqGroups() {
+  return faqGroups;
+}
+
+export async function getFeaturedFaqs() {
+  return allFaqs.filter((f) => f.featured);
 }

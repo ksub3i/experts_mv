@@ -11,7 +11,7 @@ import { buttonClasses } from "@/components/ui/Button";
  * Full-screen mobile menu built on the native <dialog> element, which gives
  * focus trapping, Esc-to-close and an inert background for free.
  */
-export function MobileNav({ nav, quoteHref, pathname }: { nav: NavItem[]; quoteHref: string; pathname: string }) {
+export function MobileNav({ nav, estimateHref, pathname }: { nav: NavItem[]; estimateHref: string; pathname: string }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const open = () => dialogRef.current?.showModal();
@@ -65,8 +65,8 @@ export function MobileNav({ nav, quoteHref, pathname }: { nav: NavItem[]; quoteH
               </li>
             ))}
           </ul>
-          <Link href={quoteHref} onClick={close} className={buttonClasses("primary", "self-start")}>
-            Get a free quote
+          <Link href={estimateHref} onClick={close} className={buttonClasses("primary", "self-start")}>
+            Get Your Free Project Estimate
             <ArrowUpRightIcon size={16} weight="bold" aria-hidden="true" />
           </Link>
         </nav>

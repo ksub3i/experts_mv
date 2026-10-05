@@ -4,7 +4,7 @@ import { PlaceholderImage } from "@/components/ui/PlaceholderImage";
 import { ButtonLink } from "@/components/ui/Button";
 import { images } from "@/content/images";
 
-export function HomeHero({ quoteHref }: { quoteHref: string }) {
+export function HomeHero({ estimateHref }: { estimateHref: string }) {
   return (
     <section className="on-dark relative isolate flex min-h-dvh items-end overflow-hidden bg-ink text-paper [--outline:var(--color-paper)]">
       {/* Swap for a hero photo or a muted, looping <video>. */}
@@ -28,8 +28,8 @@ export function HomeHero({ quoteHref }: { quoteHref: string }) {
           Built by experts · Malé &amp; Hulhumalé
         </p>
         <div className="mt-10 flex flex-wrap gap-4 motion-safe:animate-rise" style={{ animationDelay: "680ms" }}>
-          <ButtonLink href={quoteHref} arrow>
-            Get a free quote
+          <ButtonLink href={estimateHref} arrow>
+            Get Your Free Project Estimate
           </ButtonLink>
           <ButtonLink href="/gallery" variant="outline-light">
             View our work

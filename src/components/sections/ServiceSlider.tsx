@@ -8,7 +8,7 @@ import { ButtonLink } from "@/components/ui/Button";
  * Full-bleed service detail slider. Each slide is deep-linkable via
  * `/services#service-<slug>` (used by service cards and the footer).
  */
-export function ServiceSlider({ services, quoteHref }: { services: Service[]; quoteHref: string }) {
+export function ServiceSlider({ services, estimateHref }: { services: Service[]; estimateHref: string }) {
   const slides = services.map((s) => (
     <article key={s.slug} className="relative isolate flex min-h-[44rem] items-center bg-ink py-20">
       <PlaceholderImage media={s.image} fill tone="dark" className="-z-10" />
@@ -17,8 +17,8 @@ export function ServiceSlider({ services, quoteHref }: { services: Service[]; qu
           <Icon name={s.icon} size={48} className="text-ink" />
           <h2 className="display mt-6 text-[length:clamp(1.25rem,8.5cqi,2.75rem)]">{s.title}</h2>
           <p className="mt-6 leading-relaxed text-muted">{s.description}</p>
-          <ButtonLink href={quoteHref} arrow className="mt-8">
-            Get a free quote
+          <ButtonLink href={estimateHref} arrow className="mt-8">
+            Get Your Free Project Estimate
           </ButtonLink>
           <SliderControls className="absolute right-0 bottom-0" />
         </div>

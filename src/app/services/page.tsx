@@ -37,7 +37,7 @@ export default async function ServicesPage() {
         </ul>
       </section>
 
-      <ServiceSlider services={services} quoteHref={site.quoteHref} />
+      <ServiceSlider services={services} estimateHref={site.estimateHref} />
     </>
   );
 }

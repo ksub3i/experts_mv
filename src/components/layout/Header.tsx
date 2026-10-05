@@ -13,7 +13,7 @@ import { MobileNav } from "./MobileNav";
 /** Routes that open with a dark, full-bleed hero (header starts transparent). */
 const DARK_HERO = [/^\/$/, /^\/about/, /^\/services/, /^\/projects\//];
 
-export function Header({ nav, quoteHref }: { nav: NavItem[]; quoteHref: string }) {
+export function Header({ nav, estimateHref }: { nav: NavItem[]; estimateHref: string }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
@@ -38,8 +38,8 @@ export function Header({ nav, quoteHref }: { nav: NavItem[]; quoteHref: string }
           <Logo variant={overHero ? "reversed" : "full-colour"} alt="The Experts — home" priority />
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-10 lg:flex">
-          <ul className="flex items-center gap-8">
+        <nav aria-label="Main" className="hidden items-center gap-6 lg:flex xl:gap-10">
+          <ul className="flex items-center gap-6 xl:gap-8">
             {nav.map((item) => {
               const active = pathname.startsWith(item.href);
               return (
@@ -59,13 +59,15 @@ export function Header({ nav, quoteHref }: { nav: NavItem[]; quoteHref: string }
               );
             })}
           </ul>
-          <Link href={quoteHref} className={buttonClasses("primary", "on-accent")}>
-            Get a free quote
+          <Link href={estimateHref} className={buttonClasses("primary", "on-accent shrink-0 !px-5")}>
+            {/* Full wording on wide screens; shorter where the nav is tight. */}
+            <span className="hidden 2xl:inline">Get Your Free Project Estimate</span>
+            <span className="2xl:hidden">Free Project Estimate</span>
             <ArrowUpRightIcon size={16} weight="bold" aria-hidden="true" />
           </Link>
         </nav>
 
-        <MobileNav nav={nav} quoteHref={quoteHref} pathname={pathname} />
+        <MobileNav nav={nav} estimateHref={estimateHref} pathname={pathname} />
       </div>
     </header>
   );

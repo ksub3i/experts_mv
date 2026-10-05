@@ -1,6 +1,6 @@
-# The Experts — website (placeholder phase)
+# The Experts — website
 
-Next.js 16 (App Router) + Tailwind CSS 4. The layout is modelled on the structure of strawhatrenovations.ca, with an original design. All copy and images are placeholders.
+Next.js 16 (App Router) + Tailwind CSS 4. The layout is modelled on the structure of strawhatrenovations.ca, with an original design.
 
 ```bash
 npm run dev     # http://localhost:3000
@@ -9,7 +9,7 @@ npm run lint
 ```
 
 ## Pages
-`/` · `/about` · `/services` (cards deep-link to `#service-<slug>` slides) · `/gallery` · `/contact` (quote form) · `/projects/[slug]` (one template, generated for every project in `src/content/projects.ts`)
+`/` · `/about` · `/services` (cards deep-link to `#service-<slug>` slides) · `/gallery` · `/faq` · `/contact` · `/estimate` (multi-step estimate questionnaire + consultation booking) · `/projects/[slug]` (one template, generated for every project in `src/content/projects.ts`)
 
 ## Brand (applied from `Brand Guidelines.pdf` v1.0)
 | What | Where |
@@ -18,8 +18,8 @@ npm run lint
 | Logos (master SVGs from `/Logos`) | `public/brand/`, used via `src/components/ui/Logo.tsx` |
 | Favicons | `src/app/icon.png`, `src/app/apple-icon.png` |
 | Fonts | `src/app/layout.tsx`: Archivo for display headings; General Sans (brand font, self-hosted from `src/fonts`) for body text |
-| Business details, stats, values, mission | `src/content/site.ts` |
-| Services (draft) / projects / reviews | `src/content/*.ts` |
+| Business details, nav, CTA label, stats, values, mission | `src/content/site.ts` |
+| Services (draft) / projects / reviews / FAQ | `src/content/*.ts` |
 | Social links | `src/content/site.ts` → `socials` (shown in the footer) |
 | Photos | **Temporary Unsplash stock photos** in `src/content/images.ts`. Replace them with your own photos: put the files in `public/photos/`, set `src: "/photos/…"`, then remove the Unsplash entry from `next.config.ts` |
 
@@ -27,8 +27,42 @@ npm run lint
 
 Search for `PLACEHOLDER`, `DRAFT` and `[` (e.g. `[Island]`) to find remaining stand-in content.
 
+## Estimate questionnaire & lead pipeline
+`/estimate` runs an 8-step questionnaire, then a 9th step that thanks the customer and shows the Cal.com booking calendar.
+
+| Part | Where |
+|---|---|
+| Questions, options, work types per category | `src/features/estimate/options.ts` |
+| Validation (per step + server) | `src/features/estimate/schema.ts` |
+| UI | `src/features/estimate/*.tsx` |
+| Save request | `POST /api/estimates` → `submit_quote_request()` in Postgres (one transaction) |
+| Photo uploads | `POST /api/estimates/uploads` issues signed URLs; files go straight to the private Supabase Storage bucket `quote-uploads` |
+| Email alert to the team | `src/lib/integrations/notifications.ts` (Resend) |
+| Booking sync | `POST /api/webhooks/calcom` → `consultation_bookings`; lead status moves to `consultation_booked` |
+
+Without credentials everything still runs locally: requests are logged to the console, uploads are switched off, and step 9 shows the phone number.
+
+### Database (Supabase)
+The schema lives in `supabase/migrations/`. Make every schema change as a new migration file; never edit the database by hand.
+
+Tables: `customers`, `quote_requests` (the lead, with `status`), `quote_request_files`, `consultation_bookings`, `lead_notes`, `lead_status_history` (written automatically), `projects`, `integration_links` (CRM IDs). Row Level Security is on for every table with no public access; the site uses the service-role key on the server only.
+
+```bash
+npx supabase login
+npx supabase link --project-ref <your-project-ref>
+npx supabase db push
+```
+
+### Go-live checklist
+1. Create a Supabase project, run the migration (above), and add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel.
+2. Create a Resend account, verify your domain, and set `RESEND_API_KEY`, `LEAD_NOTIFICATION_EMAIL` and `EMAIL_FROM`.
+3. Create a Cal.com consultation event and set `NEXT_PUBLIC_CALCOM_LINK` (e.g. `theexperts/consultation`). In Cal.com → Settings → Developer → Webhooks, add `https://<your-site>/api/webhooks/calcom` with a secret, and set the same value as `CALCOM_WEBHOOK_SECRET`.
+4. Fill in the FAQ answers marked `draft: true` in `src/content/faq.ts` (search for `[`).
+
+See `.env.example` for every variable.
+
 ## Architecture for future features
 - **CMS / portfolio:** pages read content only through `src/lib/content` (async functions). Re-implement them against a CMS and the UI stays the same.
-- **Multi-step quote questionnaire:** add steps in `src/features/quote/steps.ts` and fields in `schema.ts`. The form renders the progress bar and Back/Continue buttons automatically.
-- **Lead capture / CRM / calendar / uploads:** `/api/leads` validates the request and hands it to the `LeadService` in `src/lib/integrations/leads.ts` (currently logs to the console). Add new adapters there.
-- New capabilities (booking, photo uploads) go in their own `src/features/<name>` module.
+- **Admin dashboard / CRM:** the database already has lead statuses, notes, status history, bookings, projects and `integration_links` for external CRM IDs. Add RLS policies for staff logins when building the dashboard.
+- **Lead destinations:** `src/lib/integrations/leads.ts` defines a `LeadService` interface; add adapters there (e.g. push to a CRM).
+- New capabilities go in their own `src/features/<name>` module.
