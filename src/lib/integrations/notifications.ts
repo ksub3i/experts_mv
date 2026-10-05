@@ -1,5 +1,5 @@
 import "server-only";
-import { env, isEmailConfigured, isSupabaseConfigured } from "@/lib/env";
+import { env, emailFromProblem, isEmailConfigured, isSupabaseConfigured } from "@/lib/env";
 import { getSupabaseAdmin, UPLOAD_BUCKET } from "@/lib/supabase/server";
 import {
   AREAS,
@@ -34,6 +34,12 @@ async function fileLinks(lead: NewLead) {
 export async function notifyTeamOfLead(lead: NewLead, saved: SavedLead) {
   if (!isEmailConfigured()) {
     console.info(`[lead] ${saved.reference}: email alerts not configured (RESEND_API_KEY / LEAD_NOTIFICATION_EMAIL).`);
+    return;
+  }
+  // Never fall back to a guessed sender: skip the email and say why. The lead is already saved.
+  const senderProblem = emailFromProblem();
+  if (senderProblem) {
+    console.error(`[lead] ${saved.reference}: notification email NOT sent — ${senderProblem}`);
     return;
   }
   try {
@@ -94,8 +100,20 @@ export async function notifyTeamOfLead(lead: NewLead, saved: SavedLead) {
         html,
       }),
     });
-    if (!res.ok) console.error(`[lead] ${saved.reference}: email failed`, res.status, await res.text());
+    const result = (await res.json().catch(() => ({}))) as { id?: string; name?: string; message?: string };
+    if (!res.ok) {
+      // Resend's error body has a type and message only — never the API key.
+      console.error(
+        `[lead] ${saved.reference}: notification email NOT sent — Resend rejected it (HTTP ${res.status}` +
+          `${result.name ? ` ${result.name}` : ""}): ${result.message ?? "no details"}. The request itself was saved.`,
+      );
+      return;
+    }
+    console.info(`[lead] ${saved.reference}: notification email sent (Resend id ${result.id ?? "unknown"}).`);
   } catch (err) {
-    console.error(`[lead] ${saved.reference}: email failed`, err);
+    console.error(
+      `[lead] ${saved.reference}: notification email NOT sent — could not reach Resend: ` +
+        `${err instanceof Error ? err.message : String(err)}. The request itself was saved.`,
+    );
   }
 }

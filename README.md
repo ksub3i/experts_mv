@@ -55,7 +55,7 @@ npx supabase db push
 
 ### Go-live checklist
 1. Create a Supabase project, run the migration (above), and add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel.
-2. Create a Resend account, verify your domain, and set `RESEND_API_KEY`, `LEAD_NOTIFICATION_EMAIL` and `EMAIL_FROM`.
+2. Create a Resend account and set `RESEND_API_KEY`, `LEAD_NOTIFICATION_EMAIL` and `EMAIL_FROM` (the sender, e.g. `Your Company <quotes@example.com>`; no default is built in). Until your domain is chosen and verified in Resend, `onboarding@resend.dev` works for testing but only delivers to your Resend account email.
 3. Create a Cal.com consultation event and set `NEXT_PUBLIC_CALCOM_LINK` (e.g. `theexperts/consultation`). In Cal.com → Settings → Developer → Webhooks, add `https://<your-site>/api/webhooks/calcom` with a secret, and set the same value as `CALCOM_WEBHOOK_SECRET`.
 4. Fill in the FAQ answers marked `draft: true` in `src/content/faq.ts` (search for `[`).
 
