@@ -28,7 +28,7 @@ npm run lint
 Search for `PLACEHOLDER`, `DRAFT` and `[` (e.g. `[Island]`) to find remaining stand-in content.
 
 ## Estimate questionnaire & lead pipeline
-`/estimate` runs an 8-step questionnaire, then a 9th step that thanks the customer and shows the Cal.com booking calendar.
+`/estimate` runs an 8-step questionnaire, then a 9th step that thanks the customer and shows the Cal.com booking calendar (inline embed, prefilled with name/email/phone, hidden request ID + reference as booking metadata). After booking it shows a "Consultation booked" summary; customers can also "Skip — I'll book later". If Cal.com can't load, it falls back to a direct booking link and the phone number. Booking never affects the already-saved request.
 
 | Part | Where |
 |---|---|
@@ -38,7 +38,7 @@ Search for `PLACEHOLDER`, `DRAFT` and `[` (e.g. `[Island]`) to find remaining st
 | Save request | `POST /api/estimates` → `submit_quote_request()` in Postgres (one transaction) |
 | Photo uploads | `POST /api/estimates/uploads` issues signed URLs; files go straight to the private Supabase Storage bucket `quote-uploads` |
 | Email alert to the team | `src/lib/integrations/notifications.ts` (Resend) |
-| Booking sync | `POST /api/webhooks/calcom` → `consultation_bookings`; lead status moves to `consultation_booked` |
+| Booking sync | `POST /api/webhooks/calcom` → `consultation_bookings` (signature-checked; duplicate/late events ignored; reschedules mark the old booking `rescheduled`); lead status moves to `consultation_booked`. Rules in `src/lib/integrations/calcom.ts` |
 
 Without credentials everything still runs locally: requests are logged to the console, uploads are switched off, and step 9 shows the phone number.
 
@@ -56,7 +56,7 @@ npx supabase db push
 ### Go-live checklist
 1. Create a Supabase project, run the migration (above), and add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel.
 2. Create a Resend account and set `RESEND_API_KEY`, `LEAD_NOTIFICATION_EMAIL` and `EMAIL_FROM` (the sender, e.g. `Your Company <quotes@example.com>`; no default is built in). Until your domain is chosen and verified in Resend, `onboarding@resend.dev` works for testing but only delivers to your Resend account email.
-3. Create a Cal.com consultation event and set `NEXT_PUBLIC_CALCOM_LINK` (e.g. `theexperts/consultation`). In Cal.com → Settings → Developer → Webhooks, add `https://<your-site>/api/webhooks/calcom` with a secret, and set the same value as `CALCOM_WEBHOOK_SECRET`.
+3. Create the Cal.com event (30 min, Google Meet, phone question required) and set `NEXT_PUBLIC_CALCOM_LINK` to its public link (`username/event-slug`). In Cal.com → Settings → Developer → Webhooks, add `https://<your-site>/api/webhooks/calcom` with a secret (events: booking created, rescheduled, cancelled, meeting ended) and set the same value as `CALCOM_WEBHOOK_SECRET`. The webhook URL must be publicly reachable — Vercel-protected preview URLs are not.
 4. Fill in the FAQ answers marked `draft: true` in `src/content/faq.ts` (search for `[`).
 
 See `.env.example` for every variable.

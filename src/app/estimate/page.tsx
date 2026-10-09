@@ -23,9 +23,10 @@ export default async function EstimatePage() {
 
   return (
     <section className="bg-surface pt-28 pb-20 md:pt-32 md:pb-28">
-      <div className="container-site grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:items-start lg:gap-10">
+      {/* On the booking step (data-step="booking") the side panel hides so the calendar gets the full width. */}
+      <div className="group/estimate container-site grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:items-start lg:gap-10 lg:has-[[data-step=booking]]:grid-cols-1">
         {/* Intro panel */}
-        <aside className="@container on-dark relative overflow-hidden bg-ink p-6 text-paper sm:p-8 lg:sticky lg:top-28">
+        <aside className="@container on-dark relative overflow-hidden bg-ink p-6 text-paper sm:p-8 lg:sticky lg:top-28 group-has-[[data-step=booking]]/estimate:hidden">
           <BrandStripes className="absolute -right-8 -bottom-10 h-40 w-40 text-brand-red/25" />
           <p className="eyebrow relative text-highlight">Malé &amp; Hulhumalé</p>
           <h1 className="display relative mt-4 text-[length:clamp(1.75rem,9cqi,2.75rem)]">

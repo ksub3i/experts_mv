@@ -210,14 +210,15 @@ export function EstimateWizard({ phone }: { phone: string }) {
   // ---- Step 9: booking ----------------------------------------------------
   if (result) {
     return (
-      <div ref={topRef} className="scroll-mt-28">
+      <div ref={topRef} data-step="booking" className="scroll-mt-28">
         <Progress current={QUESTION_COUNT + 1} label="Book your consultation" />
         <BookingStep
           reference={result.reference}
           requestId={result.id}
           name={draft.fullName}
           email={draft.email}
-          phone={phone}
+          customerPhone={draft.phone}
+          sitePhone={phone}
           headingRef={headingRef}
         />
       </div>
