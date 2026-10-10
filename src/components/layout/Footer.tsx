@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   MapPinIcon,
-  EnvelopeSimpleIcon,
+  DeviceMobileIcon,
   PhoneIcon,
   FacebookLogoIcon,
   InstagramLogoIcon,
@@ -60,9 +60,9 @@ export function Footer({ site, services }: { site: SiteConfig; services: Service
               </a>
             </li>
             <li>
-              <a href={`mailto:${site.email}`} className={`${link} flex items-center gap-3`}>
-                <EnvelopeSimpleIcon size={20} className={icon} aria-hidden="true" />
-                {site.email}
+              <a href={`tel:${site.mobile.replace(/[^\d+]/g, "")}`} className={`${link} flex items-center gap-3`}>
+                <DeviceMobileIcon size={20} className={icon} aria-hidden="true" />
+                {site.mobile}
               </a>
             </li>
           </ul>
