@@ -5,7 +5,7 @@ import { EstimateLoader } from "@/features/estimate/EstimateLoader";
 import { BrandStripes } from "@/components/ui/BrandStripes";
 
 export const metadata: Metadata = {
-  title: "Get Your Free Project Estimate",
+  title: "Get Your Free Estimate",
   description:
     "Answer a few quick questions about your renovation in Malé or Hulhumalé, then book a free consultation with The Experts.",
 };
@@ -30,7 +30,7 @@ export default async function EstimatePage() {
           <BrandStripes className="absolute -right-8 -bottom-10 h-40 w-40 text-brand-red/25" />
           <p className="eyebrow relative text-highlight">Malé &amp; Hulhumalé</p>
           <h1 className="display relative mt-4 text-[length:clamp(1.75rem,9cqi,2.75rem)]">
-            Get your free project estimate
+            Get your free estimate
           </h1>
           <ul className="relative mt-8 hidden space-y-3 lg:block">
             {promises.map((p) => (

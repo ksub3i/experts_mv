@@ -14,7 +14,7 @@ const variants: Record<Variant, string> = {
 export const buttonClasses = (variant: Variant = "primary", className?: string) =>
   cx(
     "inline-flex min-h-12 items-center justify-center gap-2 rounded-[var(--radius-button)] px-7 py-3",
-    "eyebrow !tracking-[0.12em] transition-colors duration-200 cursor-pointer",
+    "eyebrow !tracking-[0.12em] text-balance transition-colors duration-200 cursor-pointer",
     "disabled:cursor-not-allowed disabled:opacity-50",
     variants[variant],
     className,

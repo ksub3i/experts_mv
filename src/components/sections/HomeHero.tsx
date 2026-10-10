@@ -29,7 +29,7 @@ export function HomeHero({ estimateHref }: { estimateHref: string }) {
         </p>
         <div className="mt-10 flex flex-wrap gap-4 motion-safe:animate-rise" style={{ animationDelay: "680ms" }}>
           <ButtonLink href={estimateHref} arrow>
-            Get Your Free Project Estimate
+            Get Your Free Estimate
           </ButtonLink>
           <ButtonLink href="/gallery" variant="outline-light">
             View our work

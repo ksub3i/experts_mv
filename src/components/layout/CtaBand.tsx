@@ -19,7 +19,7 @@ export function CtaBand({ href }: { href: string }) {
       <BrandStripes className="absolute top-1/2 -left-6 h-48 w-48 -translate-y-1/2 text-paper/10" />
       <BrandStripes className="absolute top-1/2 -right-6 h-48 w-48 -translate-y-1/2 text-paper/10" />
       <span className="container-site relative flex min-h-28 items-center justify-center gap-5 py-8 text-center">
-        <span className="display text-[clamp(1.375rem,3.4vw,2.5rem)]">Get your free project estimate</span>
+        <span className="display text-[clamp(1.375rem,3.4vw,2.5rem)]">Get your free estimate</span>
         <ArrowRightIcon
           size={40}
           weight="light"

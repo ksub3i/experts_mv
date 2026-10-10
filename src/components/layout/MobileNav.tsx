@@ -66,7 +66,7 @@ export function MobileNav({ nav, estimateHref, pathname }: { nav: NavItem[]; est
             ))}
           </ul>
           <Link href={estimateHref} onClick={close} className={buttonClasses("primary", "self-start")}>
-            Get Your Free Project Estimate
+            Get Your Free Estimate
             <ArrowUpRightIcon size={16} weight="bold" aria-hidden="true" />
           </Link>
         </nav>

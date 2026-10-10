@@ -25,7 +25,7 @@ export const site: SiteConfig = {
     { label: "Contact", href: "/contact" },
   ],
   estimateHref: "/estimate",
-  ctaLabel: "Get Your Free Project Estimate",
+  ctaLabel: "Get Your Free Estimate",
 };
 
 // Layouts adapt to any number of stats — add more (e.g. crew size) once confirmed.

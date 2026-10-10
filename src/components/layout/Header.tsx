@@ -61,8 +61,8 @@ export function Header({ nav, estimateHref }: { nav: NavItem[]; estimateHref: st
           </ul>
           <Link href={estimateHref} className={buttonClasses("primary", "on-accent shrink-0 !px-5")}>
             {/* Full wording on wide screens; shorter where the nav is tight. */}
-            <span className="hidden 2xl:inline">Get Your Free Project Estimate</span>
-            <span className="2xl:hidden">Free Project Estimate</span>
+            <span className="hidden xl:inline">Get Your Free Estimate</span>
+            <span className="xl:hidden">Free Estimate</span>
             <ArrowUpRightIcon size={16} weight="bold" aria-hidden="true" />
           </Link>
         </nav>

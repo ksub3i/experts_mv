@@ -18,7 +18,7 @@ export function ServiceSlider({ services, estimateHref }: { services: Service[];
           <h2 className="display mt-6 text-[length:clamp(1.25rem,8.5cqi,2.75rem)]">{s.title}</h2>
           <p className="mt-6 leading-relaxed text-muted">{s.description}</p>
           <ButtonLink href={estimateHref} arrow className="mt-8">
-            Get Your Free Project Estimate
+            Get Your Free Estimate
           </ButtonLink>
           <SliderControls className="absolute right-0 bottom-0" />
         </div>

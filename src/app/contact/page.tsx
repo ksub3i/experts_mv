@@ -74,7 +74,7 @@ export default async function ContactPage() {
             <BrandStripes className="absolute -top-10 -right-10 h-44 w-44 text-brand-red/25" />
             <ClipboardTextIcon size={44} weight="light" className="relative text-highlight" aria-hidden="true" />
             <h2 className="display relative mt-6 text-[length:clamp(1.75rem,7cqi,2.75rem)]">
-              Get your free project estimate
+              Get your free estimate
             </h2>
             <p className="relative mt-5 max-w-lg leading-relaxed text-muted-inverse">
               Answer a few quick questions about your project, add photos if you have them, then pick a time for a

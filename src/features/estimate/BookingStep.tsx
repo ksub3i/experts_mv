@@ -12,6 +12,7 @@ import {
 } from "@phosphor-icons/react/ssr";
 import { publicEnv } from "@/lib/public-env";
 import { buttonClasses } from "@/components/ui/Button";
+import { formatAppointment } from "./appointment-time";
 
 const NAMESPACE = "consultation";
 const LOAD_TIMEOUT_MS = 20_000;
@@ -233,22 +234,14 @@ function BookedCard({
   reference: string;
   headingRef: React.Ref<HTMLHeadingElement>;
 }) {
-  const start = booked?.startTime ? new Date(booked.startTime) : null;
-  const end = booked?.endTime ? new Date(booked.endTime) : null;
-  const valid = start && !Number.isNaN(start.getTime());
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const tzShort =
-    valid &&
-    new Intl.DateTimeFormat("en-GB", { timeZoneName: "short" }).formatToParts(start!).find((p) => p.type === "timeZoneName")
-      ?.value;
-  const tzLabel = tz === "Indian/Maldives" ? `Maldives time (${tzShort ?? "GMT+5"})` : `${tz.replace(/_/g, " ")}${tzShort ? ` (${tzShort})` : ""}`;
-  const time = (d: Date) => d.toLocaleTimeString("en-GB", { hour: "numeric", minute: "2-digit", hour12: true });
+  const when = formatAppointment(booked?.startTime, booked?.endTime);
 
-  const rows: [string, string][] = valid
+  const rows: [string, string][] = when
     ? [
-        ["Date", start!.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" })],
-        ["Time", end && !Number.isNaN(end.getTime()) ? `${time(start!)} – ${time(end)}` : time(start!)],
-        ["Timezone", tzLabel],
+        ["Date", when.date],
+        ["Time", when.time],
+        ["Timezone", when.timezone],
+        ...(when.local ? [["Your local time", when.local] as [string, string]] : []),
         ["Quote reference", reference],
       ]
     : [["Quote reference", reference]];
